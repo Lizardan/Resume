@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме - Сергей Куликов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+           
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .resume-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            min-height: 95vh;
+        }
+        
+        .sidebar {
+            width: 35%;
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+        }
+        
+        .main-content {
+            width: 65%;
+            padding: 30px 40px;
+        }
+        
+        .header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .name {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .position {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #e0e0e0;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 22px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: #ecf0f1;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            color: #ecf0f1;
+        }
+        
+        .experience-item {
+            margin-bottom: 22px;
+        }
+        
+        .company-period {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .company {
+            font-weight: 600;
+            font-size: 17px;
+            color: #2c3e50;
+        }
+        
+        .period {
+            color: #666;
+            font-style: italic;
+            font-size: 14px;
+        }
+        
+        .role {
+            font-weight: 500;
+            color: #3498db;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .responsibilities {
+            padding-left: 18px;
+        }
+        
+        .responsibilities li {
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .education-item {
+            margin-bottom: 12px;
+        }
+        
+        .education-degree {
+            font-weight: 600;
+            color: #ecf0f1;
+            font-size: 14px;
+        }
+        
+        .education-details {
+            color: #bdc3c7;
+            font-size: 13px;
+        }
+        
+        .portfolio-item {
+            margin-bottom: 8px;
+        }
+        
+        .portfolio-link {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .portfolio-link:hover {
+            text-decoration: underline;
+        }
+        
+        .achievements-list {
+            padding-left: 16px;
+        }
+        
+        .achievements-list li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        
+        .main-section-title {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 18px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .summary {
+            margin-bottom: 22px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        @media (max-width: 900px) {
+            .resume-container {
+                flex-direction: column;
+            }
+            
+            .sidebar, .main-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="sidebar">
+            <div class="header">
+                <h1 class="name">Сергей Куликов</h1>
+                <div class="position">Senior Unity Developer</div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📱</span>
+                        <span>+7 (921) 551-27-72</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉️</span>
+                        <span>lizard268@mail.ru</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>Санкт-Петербург</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <span>Готов к удалёнке / релокации</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Навыки</h2>
+                <div class="skills-container">
+                    <span class="skill-tag">Unity (URP, WebGL)</span>
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">SOLID</span>
+                    <span class="skill-tag">DI (Zenject)</span>
+                    <span class="skill-tag">Photon Fusion</span>
+                    <span class="skill-tag">Addressables</span>
+                    <span class="skill-tag">UniTask</span>
+                    <span class="skill-tag">UniRx</span>
+                    <span class="skill-tag">KTX2/Basis</span>
+                    <span class="skill-tag">ECS (LeoECS)</span>
+                    <span class="skill-tag">DOTween</span>
+                    <span class="skill-tag">Cinemachine</span>
+                    <span class="skill-tag">Шейдеры</span>
+                    <span class="skill-tag">VFX</span>
+                    <span class="skill-tag">UI оптимизация</span>
+                    <span class="skill-tag">Game Design</span>
+ 		    <span class="skill-tag">Механики</span>
+                    <span class="skill-tag">Баланс</span>
+                    <span class="skill-tag">Экономика</span>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Достижения</h2>
+                <ul class="achievements-list">
+                    <li>Увеличил FPS и скорость загрузки WebGL-платформы</li>
+                    <li>Снизил размер билда и расход памяти</li>
+                    <li>Оптимизировал UI, мультиплеер и GC</li>
+                    <li>Переписал архитектуру критичных подсистем</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Образование</h2>
+                <div class="education-item">
+                    <div class="education-degree">СПб НИУ ИТМО</div>
+                    <div class="education-details">Программист (2013)</div>
+                </div>
+                <div class="education-item">
+                    <div class="education-degree">GeekBrains</div>
+                    <div class="education-details">Unity/C# (2016–2017)</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Портфолио</h2>
+                <div class="portfolio-item">
+                    <a href="https://megamod.gg" class="portfolio-link" target="_blank">megamod.gg</a>
+                </div>
+                <div class="portfolio-item">
+                    <a href="https://gamelab.megamod.io" class="portfolio-link" target="_blank">gamelab.megamod.io</a>
+                </div>
+                <div class="portfolio-item">
+                    <a href="https://investors.megamod.io" class="portfolio-link" target="_blank">investors.megamod.io</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <h2 class="main-section-title">Кратко обо мне</h2>
+            <div class="summary">
+                Senior Unity Developer с более чем 7 годами опыта разработки игр и WebGL-платформ. 
+                Специализируюсь на производительности, архитектуре, мультиплеере (Photon Fusion) 
+                и геймдизайне. Работал как в одиночку, так и в составе команды.
+            </div>
+            
+            <h2 class="main-section-title">Опыт работы</h2>
+            
+            <div class="experience-item">
+                <div class="company-period">
+                    <div class="company">UNIBIT LLC / OnlySpace</div>
+                    <div class="period">2022 — 2025</div>
+                </div>
+                <div class="role">Senior Unity Developer</div>
+                <ul class="responsibilities">
+                    <li>Разработка WebGL-платформы уровня Roblox (megamod.gg)</li>
+                    <li>Оптимизация WebGL: FPS, память, время загрузки, размер билда</li>
+                    <li>Мультиплеер на Photon Fusion</li>
+                    <li>Архитектура проекта, внедрение DI (Zenject), event-driven систем</li>
+                    <li>Оптимизация draw calls, текстур, материалов, шейдеров</li>
+                    <li>Интеграция Addressables, UniTask, UniRx</li>
+                    <li>Профилировка (Profiler, Memory Profiler, Frame Debugger)</li>
+                    <li>Работал как единственный Dev, затем в команде из 3 человек</li>
+                    <li>Модульные тесты, клиент-серверные взаимодействия, геймдизайн</li>
+                </ul>
+            </div>
+            
+            <div class="experience-item">
+                <div class="company-period">
+                    <div class="company">Дизайн студия №1</div>
+                    <div class="period">2020 — 2021</div>
+                </div>
+                <div class="role">Unity Developer (Hyper-casual)</div>
+                <ul class="responsibilities">
+                    <li>Разработка 100+ гиперказуальных прототипов</li>
+                    <li>Создание уровней, механик, визуальных эффектов</li>
+                </ul>
+            </div>
+            
+            <div class="experience-item">
+                <div class="company-period">
+                    <div class="company">Adnow Media</div>
+                    <div class="period">2019 — 2020</div>
+                </div>
+                <div class="role">Unity Developer</div>
+                <ul class="responsibilities">
+                    <li>Создание игровых и интерактивных проектов</li>
+                    <li>Интеграция SDK, оптимизация UX и графики</li>
+                </ul>
+            </div>
+            
+            <div class="experience-item">
+                <div class="company-period">
+                    <div class="company">ООО РПИ Групп</div>
+                    <div class="period">2018 — 2019</div>
+                </div>
+                <div class="role">Unity Developer</div>
+                <ul class="responsibilities">
+                    <li>Разработка мобильных игр</li>
+                </ul>
+            </div>
+            
+            <div class="experience-item">
+                <div class="company-period">
+                    <div class="company">For Kids Studio</div>
+                    <div class="period">2017 — 2018</div>
+                </div>
+                <div class="role">Unity Developer / Game Designer</div>
+                <ul class="responsibilities">
+                    <li>Полный цикл разработки: код, геймдизайн, тестирование</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
