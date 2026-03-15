@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое Портфолио</title>
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-color: #e0e0e0;
+            --accent: #00ff88;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+        }
+
+        .gallery {
+            column-count: 4;
+            column-gap: 20px;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) { .gallery { column-count: 3; } }
+        @media (max-width: 800px) { .gallery { column-count: 2; } }
+        @media (max-width: 500px) { .gallery { column-count: 1; } }
+
+        .item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+            opacity: 0; /* Скрыто по умолчанию для анимации */
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .item:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            z-index: 10;
+        }
+
+        .item img, .item video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .item-info {
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .item:hover .item-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Сообщение если ничего не найдено */
+        #empty-msg {
+            display: none;
+            color: #555;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Project Portfolio</h1>
+
+    <div class="gallery" id="gallery">
+        <!-- Сюда скрипт добавит только существующие файлы -->
+    </div>
+    
+    <div id="empty-msg">Файлы не найдены. Проверьте, лежит ли папка Portf рядом с этим файлом.</div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const folderName = 'Portf'; 
+        const maxSearchIndex = 50; // До какого номера искать (можно увеличить)
+        
+        let itemsFoundCount = 0;
+
+        // Функция создания карточки
+        function createCard(src, type, index) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+            // Небольшая задержка анимации для красоты
+            itemDiv.style.animationDelay = `${itemsFoundCount * 0.1}s`;
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'item-info';
+            infoDiv.textContent = type === 'video' ? `Видео #${index}` : `Фото #${index}`;
+
+            if (type === 'video') {
+                const video = document.createElement('video');
+                video.src = src;
+                video.controls = true;
+                video.playsInline = true;
+                video.muted = true;
+                // Автоплей при наведении
+                video.onmouseover = function() { 
+                    this.play().catch(e => {}); // catch чтобы не было ошибок в консоли
+                };
+                video.onmouseout = function() { 
+                    this.pause(); 
+                    this.currentTime = 0; 
+                };
+                itemDiv.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = src;
+                img.loading = "lazy";
+                itemDiv.appendChild(img);
+            }
+
+            itemDiv.appendChild(infoDiv);
+            gallery.appendChild(itemDiv);
+            itemsFoundCount++;
+        }
+
+        // Функция проверки и добавления
+        function checkFile(index) {
+            // Приоритет: Сначала ищем видео, потом фото
+            const videoSrc = `${folderName}/${index}.mp4`;
+            const imgSrcJpg = `${folderName}/${index}.jpg`;
+            const imgSrcPng = `${folderName}/${index}.png`;
+
+            // 1. Пытаем загрузить ВИДЕО
+            const testVideo = document.createElement('video');
+            testVideo.src = videoSrc;
+            
+            // Если видео загрузилось (или браузер готов его играть)
+            testVideo.onloadeddata = function() {
+                createCard(videoSrc, 'video', index);
+            };
+            // Если видео НЕ загрузилось (ошибка), игнорируем и идем дальше
+            testVideo.onerror = function() {
+                // Видео нет, пробуем фото
+                checkImages(index);
+            };
+
+            // Вспомогательная функция для фото
+            function checkImages(idx) {
+                const testImgJpg = new Image();
+                testImgJpg.src = imgSrcJpg;
+                
+                testImgJpg.onload = function() {
+                    createCard(imgSrcJpg, 'image', idx);
+                };
+
+                testImgJpg.onerror = function() {
+                    // JPG нет, пробуем PNG
+                    const testImgPng = new Image();
+                    testImgPng.src = imgSrcPng;
+                    
+                    testImgPng.onload = function() {
+                        createCard(imgSrcPng, 'image', idx);
+                    };
+                    // Если и PNG нет - просто ничего не делаем, файл не существует
+                };
+            }
+        }
+
+        // Запуск перебора
+        // Мы запускаем цикл, но из-за асинхронности (файлы грузятся с разной скоростью)
+        // порядок добавления в DOM может нарушиться. 
+        // Чтобы сохранить порядок 1, 2, 3... нам нужно хитрое решение.
+        
+        // Простое решение для локального файла:
+        // Создаем массив "обещаний" или просто ждем. 
+        // Но самый надежный способ для новичка - просто запустить проверку.
+        // Чтобы порядок не сбился, мы будем добавлять элементы не сразу, 
+        // а складывать в массив и сортировать перед выводом.
+        
+        let foundItemsBuffer = [];
+
+        function processIndex(i) {
+            const videoSrc = `${folderName}/${i}.mp4`;
+            const imgSrcJpg = `${folderName}/${i}.jpg`;
+            const imgSrcPng = `${folderName}/${i}.png`;
+            
+            let added = false;
+
+            // Проверка Видео
+            const v = document.createElement('video');
+            v.src = videoSrc;
+            v.onloadeddata = () => {
+                if(!added) {
+                    foundItemsBuffer.push({index: i, src: videoSrc, type: 'video'});
+                    added = true;
+                    renderIfReady();
+                }
+            };
+            v.onerror = () => {
+                // Проверка JPG
+                const imgJ = new Image();
+                imgJ.src = imgSrcJpg;
+                imgJ.onload = () => {
+                    if(!added) {
+                        foundItemsBuffer.push({index: i, src: imgSrcJpg, type: 'image'});
+                        added = true;
+                        renderIfReady();
+                    }
+                };
+                imgJ.onerror = () => {
+                    // Проверка PNG
+                    const imgP = new Image();
+                    imgP.src = imgSrcPng;
+                    imgP.onload = () => {
+                        if(!added) {
+                            foundItemsBuffer.push({index: i, src: imgSrcPng, type: 'image'});
+                            added = true;
+                            renderIfReady();
+                        }
+                    };
+                };
+            };
+        }
+
+        function renderIfReady() {
+            // Сортируем буфер по индексу, чтобы 1 было перед 2, даже если 2 загрузилось быстрее
+            foundItemsBuffer.sort((a, b) => a.index - b.index);
+            
+            // Очищаем и рисуем заново (это быстро для 50 файлов)
+            gallery.innerHTML = '';
+            foundItemsBuffer.forEach((item, idx) => {
+                // Воссоздаем элемент с правильной задержкой анимации
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.style.animationDelay = `${idx * 0.1}s`;
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'item-info';
+                infoDiv.textContent = item.type === 'video' ? `Видео #${item.index}` : `Фото #${item.index}`;
+
+                if(item.type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = item.src;
+                    video.controls = true;
+                    video.playsInline = true;
+                    video.muted = true;
+                    video.onmouseover = function() { this.play().catch(e=>{}); };
+                    video.onmouseout = function() { this.pause(); this.currentTime = 0; };
+                    itemDiv.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.loading = "lazy";
+                    itemDiv.appendChild(img);
+                }
+                itemDiv.appendChild(infoDiv);
+                gallery.appendChild(itemDiv);
+            });
+
+            if(foundItemsBuffer.length === 0 && i >= maxSearchIndex) {
+                 // document.getElementById('empty-msg').style.display = 'block';
+            }
+        }
+
+        // Запускаем поиск от 1 до 50
+        for (let i = 1; i <= maxSearchIndex; i++) {
+            processIndex(i);
+        }
+
+    </script>
+</body>
+</html>
